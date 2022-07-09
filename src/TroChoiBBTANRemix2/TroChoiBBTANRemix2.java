@@ -25,19 +25,6 @@ public class TroChoiBBTANRemix2 {
 		return dir;
 	}
 	
-	static int solve(char[][] arr, int N, int xf, int yf, int dirf) {
-		int x = xf, y = yf, dir = dirf, count = 0;
-		while(true) {
-			int oldDir = dir;
-			dir = getDir(dir, arr[x][y]);
-			if(oldDir != dir) count++;
-			x = x + dir_x[dir];
-			y = y + dir_y[dir];
-			if(isOutside(x, y, N) == 1) break;
-		}
-		return count;
-	}
-	
 	public static void main(String[] args) throws Exception {
 		System.setIn(new FileInputStream("src/TroChoiBBTANRemix2/input.txt"));
 		Scanner sc = new Scanner(System.in);
@@ -54,31 +41,67 @@ public class TroChoiBBTANRemix2 {
 			}
 			int maxCount = 0, x = 0, y = 0;
 			for(int j = 0; j < N; j++) {
-				int count = solve(arr, N, j, 0, 2);
+				int xf = j, yf = 0, dir = 2, count = 0;
+				while(true) {
+					xf = xf + dir_x[dir];
+					yf = yf + dir_y[dir];
+					if(isOutside(xf, yf, N) == 1) break;
+					int oldDir = dir;
+					dir = getDir(dir, arr[xf][yf]);
+					if(oldDir != dir) count++;
+				}
+				
 				if(count > maxCount) {
 					maxCount = count;
 					x = j;
 					y = 0;
 				}
 			}
-			for(int j = 0; j < N; j++) {
-				int count = solve(arr, N, N - 1, j, 1);
+			for(int j = 0; j < N; j++) {				
+				int xf = N - 1, yf = j, dir = 1, count = 0;
+				while(true) {
+					xf = xf + dir_x[dir];
+					yf = yf + dir_y[dir];
+					if(isOutside(xf, yf, N) == 1) break;
+					int oldDir = dir;
+					dir = getDir(dir, arr[xf][yf]);
+					if(oldDir != dir) count++;
+				}
+				
 				if(count > maxCount) {
 					maxCount = count;
 					x = N - 1;
 					y = j;
 				}
 			}
-			for(int j = N - 1; j >= 0; j--) {
-				int count = solve(arr, N, j, N - 1, 0);
+			for(int j = N - 1; j >= 0; j--) {		
+				int xf = j, yf = N - 1, dir = 0, count = 0;
+				while(true) {
+					xf = xf + dir_x[dir];
+					yf = yf + dir_y[dir];
+					if(isOutside(xf, yf, N) == 1) break;
+					int oldDir = dir;
+					dir = getDir(dir, arr[xf][yf]);
+					if(oldDir != dir) count++;
+				}
+				
 				if(count > maxCount) {
 					maxCount = count;
 					x = j;
 					y = N - 1;
 				}
 			}
-			for(int j = N - 1; j >= 0; j--) {
-				int count = solve(arr, N, 0, j, 3);
+			for(int j = N - 1; j >= 0; j--) {				
+				int xf = 0, yf = j, dir = 3, count = 0;
+				while(true) {
+					xf = xf + dir_x[dir];
+					yf = yf + dir_y[dir];
+					if(isOutside(xf, yf, N) == 1) break;
+					int oldDir = dir;
+					dir = getDir(dir, arr[xf][yf]);
+					if(oldDir != dir) count++;
+				}
+				
 				if(count > maxCount) {
 					maxCount = count;
 					x = 0;
