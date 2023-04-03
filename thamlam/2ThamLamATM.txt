@@ -1,0 +1,43 @@
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+int main() {
+    long n, len = 4, count, m, l;
+    cin >> n;
+    long w[n], c[n];
+    int a[len] = {1000, 2000, 3000, 5000};
+    for(int i = 0; i < n; i++) {
+        cin >> w[i] >> c[i];
+    }
+    for(int i = 0; i < n; i++) {
+        if(w[i] % 1000 != 0) {
+            cout << 0 << endl;
+            continue;
+        }
+        count = 0, m = w[i], l = 1;
+        for(int j = c[i]; j >= 0; j--) {
+            int arrtmp[4] = {0, 0, 0, 0};
+            for(int k = len - 1; k >= 0; k--) {
+                long tmp = a[k] * (long)pow(10, j);
+                count += (m / tmp);
+                if(m / tmp != 0) {
+                    arrtmp[k] = 1;
+                }
+                m %= tmp;
+            }
+            if(arrtmp[3] == 1 && arrtmp[2] == 1 && arrtmp[0] == 1) {
+                l *= 3;
+            } else if (arrtmp[3] == 1 && arrtmp[0] == 1){
+                l *= 2;
+
+            } else if (arrtmp[3] == 0 && arrtmp[2] == 1 && arrtmp[0] == 1) {
+                l *= 2;
+            }
+        }
+        cout << count << " " << l;
+        cout << endl;
+    }
+    //cout << (int)pow(10, 0);
+    return 0;
+}

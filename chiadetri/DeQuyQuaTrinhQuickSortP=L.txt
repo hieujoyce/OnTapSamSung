@@ -1,0 +1,60 @@
+#include <iostream>
+
+using namespace std;
+
+void in(int arr[], int l, int r) {
+    for(int i = l; i <= r; i++) {
+	    cout << arr[i] << " ";
+	    //printf("%-4d", arr[i]);
+	}
+	cout << endl;
+}
+
+int partition(int arr[], int start, int end) {
+ 
+    int pivot = arr[start];    // pivot
+    int left = start + 1;
+    int right = end;
+    while(true){
+        while(left <= end && arr[left] <= pivot) left++;
+        while(right >= start && arr[right] > pivot) right--;
+        if (left >= right) break;
+        swap(arr[left], arr[right]);
+        in(arr, start, end);
+        left++;
+        right--;
+    }
+    swap(arr[right], arr[start]);
+    in(arr, start, end);
+    return right;
+    // swap(arr[left - 1], arr[start]);
+    // in(arr, start, end);
+    // return left - 1;
+}
+ 
+void quickSort(int arr[], int start, int end) {
+    if (start < end) {
+        cout << endl << "Partitioning: left=" << start <<", right=" << end << endl;
+        in(arr, start, end);
+        int p = partition(arr, start, end);
+    
+        quickSort(arr, start, p - 1);
+    
+        quickSort(arr, p + 1, end);   
+    }
+}
+
+int main() {
+    int n, *arr;
+    cin >> n;
+    arr = new int[n];
+    for(int i = 0; i < n; i++) {
+	    cin >> arr[i];
+	}
+	in(arr, 0, n - 1);
+	quickSort(arr, 0, n - 1);
+	for(int i = 0; i < n; i++) {
+	    cout << arr[i] << " ";
+	}
+    return 0;
+}

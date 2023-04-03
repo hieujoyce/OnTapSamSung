@@ -1,0 +1,99 @@
+#include <iostream>
+#include <vector>
+#include <math.h>
+#include <bits/stdc++.h>
+using namespace std;
+
+struct DoVat {  
+    int stt, A, C;
+    float P;
+};
+
+int partition(DoVat arr[], int start, int end) {
+ 
+    float pivot = arr[start].P;
+ 
+    int count = 0;
+    for (int i = start + 1; i <= end; i++) {
+        if (arr[i].P >= pivot)
+            count++;
+    }
+
+    int pivotIndex = start + count;
+    swap(arr[pivotIndex], arr[start]);
+
+    int i = start, j = end;
+ 
+    while (i < pivotIndex && j > pivotIndex) {
+ 
+        while (arr[i].P >= pivot) {
+            i++;
+        }
+ 
+        while (arr[j].P < pivot) {
+            j--;
+        }
+ 
+        if (i < pivotIndex && j > pivotIndex) {
+            swap(arr[i++], arr[j--]);
+        }
+    }
+ 
+    return pivotIndex;
+}
+ 
+void quickSort(DoVat arr[], int start, int end) {
+    if (start >= end)
+        return;
+
+    int p = partition(arr, start, end);
+
+    quickSort(arr, start, p - 1);
+
+    quickSort(arr, p + 1, end);
+}
+
+
+
+int main()
+{
+    int n, M, A, C, trongLuong = 0, giaTri = 0;
+    cin >> n >> M;
+    DoVat arr[n];
+    vector<DoVat> v;
+    for(int i = 0; i < n; i++) {
+        cin >> A;
+        arr[i].stt = i + 1;
+        arr[i].A = A;
+    }
+    for(int i = 0; i < n; i++) {
+        cin >> C;
+        arr[i].C = C;
+        //arr[i].P = round(((float)C / arr[i].A) * 100) / 100;
+        arr[i].P = (float)C / arr[i].A;
+    }
+    
+    quickSort(arr, 0, n - 1);
+    for(int i = 0; i < n; i++) {
+        if(M - arr[i].A >= 0) {
+            v.push_back(arr[i]);
+            trongLuong += arr[i].A;
+            giaTri += arr[i].C;
+            M -= arr[i].A;
+        }
+    }
+    cout << "Tong trong luong =" << trongLuong << endl;
+    cout << "Tong gia tri =" << giaTri << endl;
+    for (int i = 0; i < v.size(); i++) {
+        //cout << v[i].stt << "(" << v[i].A << "-" << v[i].C << "-" << v[i].P << ");";
+        printf("%d(%d-%d-", v[i].stt, v[i].A, v[i].C);
+        v[i].P = round(v[i].P * 100) / 100;
+        string s = to_string(v[i].P).replace(1, 1, ",");
+        //s.substr(0, s.length() - 2)
+        cout << s.substr(0, s.length() - 4) << ");";
+        //str.replace(9,5,str2);
+    }
+    cout << endl;
+    //cout << "2.01".replace(".",",",str2);  
+    return 0;
+}

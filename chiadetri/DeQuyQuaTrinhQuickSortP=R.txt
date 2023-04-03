@@ -1,0 +1,55 @@
+#include <iostream>
+
+using namespace std;
+
+void in(int arr[], int l, int r) {
+    for(int i = l; i <= r; i++) {
+	    cout << arr[i] << " ";
+	}
+	cout << endl;
+}
+
+int partition(int arr[], int start, int end) {
+ 
+    int pivot = arr[end];    // pivot
+    int left = start;
+    int right = end - 1;
+    while(true){
+        while(left <= right && arr[left] > pivot) left++;
+        while(right >= left && arr[right] <= pivot) right--;
+        if (left >= right) break;
+        swap(arr[left], arr[right]);
+        in(arr, start, end);
+        left++;
+        right--; //
+    }
+    swap(arr[left], arr[end]);
+    in(arr, start, end);
+    return left; // Trả về chỉ số sẽ dùng để chia đổi mảng
+}
+ 
+void quickSort(int arr[], int start, int end) {
+    if (start >= end)
+        return;
+    //Partitioning: left=0, right=9
+    cout << endl << "Partitioning: left=" << start <<", right=" << end << endl;
+    in(arr, start, end);
+    int p = partition(arr, start, end);
+
+    quickSort(arr, start, p - 1);
+
+    quickSort(arr, p + 1, end);
+}
+
+int main() {
+    int n, *arr;
+    cin >> n;
+    arr = new int[n];
+    for(int i = 0; i < n; i++) {
+	    cin >> arr[i];
+	}
+	in(arr, 0, n - 1);
+	quickSort(arr, 0, n - 1);
+	in(arr, 0, n - 1);
+    return 0;
+}
