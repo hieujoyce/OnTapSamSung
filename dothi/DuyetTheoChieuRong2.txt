@@ -4,17 +4,17 @@
 using namespace std;
 
 void bfs(int visited[], int index, int ** arr, int n, int parents[]) {
-    queue<int> q;
+    queue<int> q; // đầu tiên ta khởi tạo Một hàng đợi ban đầu chỉ chứa 1phần tử là đỉnh s
     q.push(index);
-    visited[index] = 1;
-    while(!q.empty()) {
-        int v = q.front();
+    visited[index] = 1; // đánh dấu đỉnh đó đã được thăm rồi
+    while(!q.empty()) { // mình cứ lặp lại các bước cho đợi đến khi hàng đợi rỗng
+        int v = q.front(); // Lấy đỉnh v ra khỏi hàng đợi
         q.pop();
-        for(int i = 0; i < n; i++) {
+        for(int i = 0; i < n; i++) {// xét tất cả những đỉnh kề với v mà chưa được đánh dấu hay đã thăm
             if(arr[v][i] == 1 && index != i && visited[i] == 0) {
-                parents[i] = v;
-                q.push(i);
-                visited[i] = 1;
+                parents[i] = v; // ta lưu vết lại đỉnh đằng trc nó để lưu cái đường đi của tt duyệt theo rộng
+                q.push(i);//đẩy lại đỉnh kề đó vào hàng đợi
+                visited[i] = 1;// Và đánh dấu đỉnh đó đã thăm
             }
         }
     }
@@ -33,18 +33,18 @@ int main() {
                 cin >> arr[i][j];
             }
         }
-        int visited[n], parents[n], first = 1;
+        int visited[n], parents[n], first = 1; // khởi tạo mảng visit thể hiện xem đỉnh đó đã được đi qua hay còn gọi là thăm chưa với giá trị mặc định ban đầu là 0
         for(int j = 0; j < n; j++) {
             visited[j] = 0;
         }
-        bfs(visited, u, arr, n, parents);
+        bfs(visited, u, arr, n, parents); ;// ta sẽ duyệt theo chiều sâu bắt đầu từ đỉnh v 
         printf("Path from %d to %d:", u, v);
-        if(visited[v] == 0) {
+        if(visited[v] == 0) {// ktra xem đỉnh v đã được thăm hay chưa nếu thăm tức nó có giá trị 1
             printf(" No path exits");
         } else {
             vector<int> path;
             int tmp = v;
-            while(u != tmp) {
+            while(u != tmp) { // ta sẽ truy vết lại các biến parents để in ra đường đi từ đỉnh u đến đỉnh v
                 path.push_back(tmp);
                 tmp = parents[tmp];
             }

@@ -5,16 +5,16 @@
 using namespace std;
 
 void dfs(int visited[], int index, int ** arr, int n, vector<int>& vec) {
-    visited[index] = 1;
-    vec.push_back(index);
-    for(int i = 0; i < n; i++) {
+    visited[index] = 1; // khi duyệt qua đỉnh đó thì ta sẽ đánh dấu đỉnh đó đã được thăm
+    vec.push_back(index); //e sử dụng vector để lưu vết lại giá trị của đỉnh trong thành phần liên thông đó
+    for(int i = 0; i < n; i++) { // duyệt qua các đỉnh kề với đỉnh đó
         if(arr[index][i] == 1 && index != i && visited[i] == 0) {
             dfs(visited, i, arr, n, vec);
         }
     }
 }
 
-int main() {
+int main() { 
     int t;
     cin >> t;
     for(int k = 0; k < t; k++) {
@@ -27,17 +27,17 @@ int main() {
                 cin >> arr[i][j];
             }
         }
-        int count = 0, visited[n];
-        for(int j = 0; j < n; j++) {
+        int count = 0, visited[n]; // với bài này e áp dụng tính chất 1 đồ thi liên thông khi nó chỉ có đúng 1 thành phần liên thông nên e sẽ áp dung tt duyệt theo chiều sâu để tìm số lượng thành phần liên thông
+        for(int j = 0; j < n; j++) { 
                 visited[j] = 0;
-            }
-        for(int i = 0; i < n; i++) {
+            } 
+        for(int i = 0; i < n; i++) { // e sẽ duyệt tất cả các điểm cứ đỉnh nào cứ đc thăm sau khi duyệt thì tức là nó đã đi hết con đường của thành phần liên thông đó nên e sẽ cộng số lượng thành phần liên thông lên 1
             if(visited[i] == 0) {
                 vector<int> vec;
                 count++;
                 dfs(visited, i, arr, n, vec);
-                sort(vec.begin(), vec.end());
-                for(int j = 0; j < vec.size(); j++) {
+                sort(vec.begin(), vec.end());// sau khi duyệt được 1 thành phần liên thông e sẽ sort nó để danh sách các đỉnh sẽ sắp xếp từ bé đến lớn
+                for(int j = 0; j < vec.size(); j++) { // duyệt để truy vết lại các đỉnh của 1 thành phần liên thông
                     cout << vec[j] << " ";
                 }
                 cout << endl;

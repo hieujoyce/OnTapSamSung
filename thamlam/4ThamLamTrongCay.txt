@@ -2,7 +2,7 @@
 
 using namespace std;
 
-void merge(int arr[], int l, int m, int r) {
+void merge(int arr[], int l, int m, int r) { //
     int i, j, k;
     int n1 = m - l + 1;
     int n2 =  r - m;
@@ -52,15 +52,15 @@ void mergeSort(int arr[], int l, int r) {
 int main() {
     int n;
     cin >> n;
-    int t[n];
+    int t[n];// mảng lưu giá trị số ngày cần thiết để cây phát triển
     for(int i = 0; i < n; i++) {
         cin >> t[i];
     }
     int result = 0;
-    mergeSort(t, 0, n - 1);
+    mergeSort(t, 0, n - 1); // sắp xếp mảng với thời gian giảm dần
     
-    for(int i = 0; i < n; i++) {
-        if(i + 1 + t[i] > result) {
+    for(int i = 0; i < n; i++) { //duyệt mảng từ phần từ có thời gian lâu nhất (tham lam thể hiện ở chỗ này)
+        if(i + 1 + t[i] > result) { //nếu tổng thời gian lớn hơn thời gian sớm nhất thì cập nhật lại kết quả
             result = i + 1 + t[i];
         }
     }

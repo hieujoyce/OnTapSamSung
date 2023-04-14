@@ -3,7 +3,7 @@
 
 using namespace std;
 
-void in(int** f, int n, int k) {
+void in(int** f, int n, int k) { // hàm in ra giá trị bảng f
     cout << " n/t";
     for(int i = 0; i < k; i++) {
         printf("%4d", i);
@@ -22,7 +22,7 @@ void in(int** f, int n, int k) {
     }
 }
 
-int sub(int x, int y, int k) {
+int sub(int x, int y, int k) {// tính số dư của (x - y)  chia cho k
     int tmp = (x - y) % k;
     return tmp >= 0 ? tmp : tmp + k;
 }
@@ -39,28 +39,29 @@ int main() {
         cout << "Day da cho thoa man yeu cau." << endl << "Tong =" << sum;
         return 0;
     }
-    int **f = new int*[n + 1];
+    int **f = new int*[n + 1]; // khởi tạo bảng f với f[i, t] là số phần tử tối thiểu phải chọn trong dãy a[1..i] để có tổng chia k dư t
     for(int i = 0; i < n + 1; i++) {
         f[i] = new int[k];
     }
     //optimize
-    f[0][0] = 0;
-    for(int t = 1; t < k; t++)
-        f[0][t] = INT_MAX;
-    for(int i = 1; i <= n; i++) {
+    f[0][0] = 0; // đây là bước để khởi tạo cơ sở quy hoạch động
+    for(int t = 1; t < k; t++) // đây là bước để khởi tạo cơ sở quy hoạch động
+        f[0][t] = INT_MAX; // đây là bước để khởi tạo cơ sở quy hoạch động
+    for(int i = 1; i <= n; i++) { /duyệt để tính bảng f với công thức truy hồi sau
         for(int t = 1; t < k; t++) {
-            if(f[i - 1][t] < f[i - 1][sub(t, A[i - 1], k)] + 1)
-                f[i][t] = f[i - 1][t];
-            else
-                f[i][t] = f[i - 1][sub(t, A[i - 1], k)] + 1;
+            if(f[i - 1][t] < f[i - 1][sub(t, A[i - 1], k)] + 1) // CT truy hồi nếu trong dãy trên phải chọn a[i]  tức là nếu f[i - 1][t] < f[i - 1][sub(t, A[i - 1], k)] + 1 thì ta sẽ tính f[i][t] với công thức dưới (1) tức là bằng giá trị của f với giá trị cột - 1
+                f[i][t] = f[i - 1][t]; // (1)
+            else // nếu trong dãy phải chọn a[i] thì f[i][t] được tính với công thức này (2)
+                f[i][t] = f[i - 1][sub(t, A[i - 1], k)] + 1; (2)
         }
     }
-    in(f, n, k);
-    cout << "Chieu dai day con: " << n - f[n][sum % k] << endl;
-    //truy vet
+    in(f, n, k); // in giá trị bảng f
+    cout << "Chieu dai day con: " << n - f[n][sum % k] << endl; // sau khi có giá trị của bảng f đầy đủ thì chiều dài dãy con được tính với công thức như sau số phần tử giữ lại (tức chiều dài dãy con) = n - số phần tử bỏ đi
+    // các bước tiếp theo sẽ truy vết để các phần tử của dãy con 
     int t = sum % k;
     sum = 0;
     for(int i = n; i >= 1; i--) {
+	// phương án tối ưu không bỏ a[i], tức chọn a[i]
         if(f[i][t] == f[i - 1][t]) {
             printf("a[%d]=%d;", i, A[i - 1]);
             sum += A[i - 1];
@@ -69,12 +70,5 @@ int main() {
         }
     }
     cout << endl << "Tong =" << sum;
-    // for(int i = 0; i <= n; i++) {
-    //     for(int v = 0; v < k; v++) {
-    //         f[i][v] = 6;
-    //     }
-    // }
-    // f[2][3] = INT_MAX;
-    // in(f, n, k);
     return 0;
 }

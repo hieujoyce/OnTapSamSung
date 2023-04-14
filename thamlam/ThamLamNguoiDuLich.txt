@@ -15,8 +15,8 @@ int main()
     }
     arr[0][0] = -1, result[0] = 0, index = 1, tongChiPhi = 0;
     for(int i = 0; i < n - 1; i++) {
-        int min = -1, minx = x;
-        for(int j = 0; j < n; j++) {
+        int min = -1, minx = x;// khởi tạo giá trị min
+        for(int j = 0; j < n; j++) { // duyệt qua các thành phố lân cận thành phố nào có quãng đường ngắn nhất thì chọn làm thành phố tiếp theo(tham lam thể hiện ở chỗ này)
             if(x == j || arr[j][j] == -1) continue;
             if(min == -1) {
                 min = arr[x][j];

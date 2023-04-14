@@ -4,15 +4,15 @@
 using namespace std;
 
 void dfs(int visited[], int index, int ** arr, int n) {
-    visited[index] = 1;
-    for(int i = 0; i < n; i++) {
-        if(arr[index][i] == 1 && index != i && visited[i] == 0) {
+    visited[index] = 1;// khi duyệt qua đỉnh đó thì ta sẽ đánh dấu đỉnh đó đã được thăm
+    for(int i = 0; i < n; i++) {// duyệt qua các đỉnh kề với đỉnh đó
+        if(arr[index][i] == 1 && index != i && visited[i] == 0) { // nếu đỉnh đó chưa được thăm thì ta sẽ đệ quy để duyệt theo chiều sâu với đỉnh đó, đệ quy sẽ chương trình tự tạo ra 1 ngăn xếp thay vì tạo trực tiếp ngăn xếp bằng mã code dùng để chứa danh sách các đỉnh kề sau khi hàm đệ quy này chạy xong nó sẽ tự lấy ra đỉnh kế tiếp theo để duyệt theo chiều sau
             dfs(visited, i, arr, n);
         }
     }
 }
 
-int main() {
+int main() { // với bài này e áp dụng tính chất 1 đồ thi liên thông khi nó chỉ có đúng 1 thành phần liên thông nên e sẽ áp dung tt duyệt theo chiều sâu để tìm số lượng thành phần liên thông
     int t;
     cin >> t;
     for(int k = 0; k < t; k++) {
@@ -25,18 +25,18 @@ int main() {
                 cin >> arr[i][j];
             }
         }
-        int count = 0, visited[n];
+        int count = 0, visited[n];// khởi tạo mảng visit thể hiện xem đỉnh đó đã được đi qua hay còn gọi là thăm chưa với giá trị mặc định ban đầu là 0
         for(int j = 0; j < n; j++) {
                 visited[j] = 0;
             }
-        for(int i = 0; i < n; i++) {
+        for(int i = 0; i < n; i++) {// e sẽ duyệt tất cả các điểm cứ đỉnh nào cứ đc thăm sau khi duyệt thì tức là nó đã đi hết con đường của thành phần liên thông đó nên e sẽ cộng số lượng thành phần liên thông lên 1
             if(visited[i] == 0) {
                 count++;
                 dfs(visited, i, arr, n);
             }
         }
         
-        if(count == 1) {
+        if(count == 1) { // khi chỉ có 1 thành phần liên thông thì nó là đồ thị liên thông
             cout << "Connected";
         } else {
             cout << "Not connected";

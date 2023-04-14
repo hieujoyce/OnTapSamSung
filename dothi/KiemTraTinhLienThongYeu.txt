@@ -12,16 +12,16 @@ void dfs(int visited[], int index, int ** arr, int n, int arrIndex[], int& index
     }
 }
 
-void dfs1(int visited[], int index, int ** arr, int n) {
-    visited[index] = 1;
-    for(int i = 0; i < n; i++) {
-        if(arr[index][i] == 1 && index != i && visited[i] == 0) {
+void dfs1(int visited[], int index, int ** arr, int n) { 
+    visited[index] = 1; // khi duyệt qua đỉnh đó thì ta sẽ đánh dấu đỉnh đó đã được thăm
+    for(int i = 0; i < n; i++) { // khi duyệt qua đỉnh đó thì ta sẽ đánh dấu đỉnh đó đã được thăm
+        if(arr[index][i] == 1 && index != i && visited[i] == 0) { // nếu đỉnh đó chưa được thăm thì ta sẽ đệ quy để duyệt theo chiều sâu với đỉnh đó, đệ quy sẽ chương trình tự tạo ra 1 ngăn xếp thay vì tạo trực tiếp ngăn xếp bằng mã code dùng để chứa danh sách các đỉnh kề sau khi hàm đệ quy này chạy xong nó sẽ tự lấy ra đỉnh kế tiếp theo để duyệt theo chiều sau
             dfs1(visited, i, arr, n);
         }
     }
 }
 
-int main() {
+int main() { // để 1 đồ thị được coi là độ thị liên thông mạnh thì trc tiên nó phải thỏa mãn đk của đồ thị liên thông yếu đó là đthi vô hướng của nó là đồ thị liên thông nếu ko thỏa mãn ta sẽ kl nó ko thuộc loại nào. sau khi qua đk thì nó chắc chắn là đthi lthong yếu r thì e sẽ sd Thuật Toán Kosaraju để kiểm tra đthi lthong mạnh đó là ktra ma trận chuyển vị của nó có phải là liên thông hay ko
     int t;
     cin >> t;
     for(int k = 0; k < t; k++) {
@@ -30,7 +30,7 @@ int main() {
         int **arr = new int*[n];
         int **arrTG = new int*[n];
         int **arrVH = new int*[n];
-        for(int i = 0; i < n; i++) {
+        for(int i = 0; i < n; i++) { // đầu tiên ta xây dựng ma trận vô hướng mà ma trận chuyển vị
             arr[i] = new int[n];
             arrTG[i] = new int[n];
             arrVH[i] = new int[n];
@@ -57,11 +57,11 @@ int main() {
         //     cout << " VH" << endl;
         // }
         // cout << endl;
-        int visited[n], arrIndex[n], indexStack = 0, count = 0;
+        int visited[n], arrIndex[n], indexStack = 0, count = 0;// khởi tạo mảng visit thể hiện xem đỉnh đó đã được đi qua hay còn gọi là thăm chưa với giá trị mặc định ban đầu là 0
         for(int j = 0; j < n; j++) {
             visited[j] = 0;
         }
-        for(int i = 0; i < n; i++) {
+        for(int i = 0; i < n; i++) { // e sẽ duyệt tất cả các điểm của đỉnh nào của đồ thị vô hướng đc thăm sau khi duyệt thì tức là nó đã đi hết con đường của thành phần liên thông đó nên e sẽ cộng số lượng thành phần liên thông lên 1
             if(visited[i] == 0) {
                 count++;
                 dfs1(visited, i, arrVH, n);
@@ -70,7 +70,7 @@ int main() {
         
         if(count != 1) {
             cout << "Not Connected At All";
-        } else {
+        } else { // sau khi tk đk của đồ thị lthong yếu ta sẽ dùng Thuật Toán Kosaraju để ktra đthi lthong mạnh nếu ko thì sẽ là dthi lthong yếu làm tương tự với các bước trên nhưng target là ma trận chuyển vị
             count = 0;
             for(int j = 0; j < n; j++) {
                 visited[j] = 0;

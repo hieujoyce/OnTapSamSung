@@ -3,9 +3,9 @@
 using namespace std;
 
 void dfs(int visited[], int index, int ** arr, int n) {
-    visited[index] = 1;
-    for(int i = 0; i < n; i++) {
-        if(arr[index][i] == 1 && index != i && visited[i] == 0) {
+    visited[index] = 1; // khi duyệt qua đỉnh đó thì ta sẽ đánh dấu đỉnh đó đã được thăm
+    for(int i = 0; i < n; i++) {// duyệt qua các đỉnh kề với đỉnh đó
+        if(arr[index][i] == 1 && index != i && visited[i] == 0) { // nếu đỉnh đó chưa được thăm thì ta sẽ đệ quy để duyệt theo chiều sâu với đỉnh đó, đệ quy sẽ chương trình tự tạo ra 1 ngăn xếp thay vì tạo trực tiếp ngăn xếp bằng mã code dùng để chứa danh sách các đỉnh kề sau khi hàm đệ quy này chạy xong nó sẽ tự lấy ra đỉnh kế tiếp theo để duyệt theo chiều sau
             dfs(visited, i, arr, n);
         }
     }
@@ -24,14 +24,14 @@ int main() {
                 cin >> arr[i][j];
             }
         }
-        for(int i = 0; i < n; i++) {
-            int visited[n], first = 1;
+        for(int i = 0; i < n; i++) { // duyệt từng đỉnh 1 để sử dụng tt duyệt theo chiều sâu để liệt kê danh sách các đỉnh mà có thể đến được từ đỉnh đó
+            int visited[n], first = 1; // khởi tạo mảng visit thể hiện xem đỉnh đó đã được đi qua hay còn gọi là thăm chưa với giá trị mặc định ban đầu là 0
             for(int j = 0; j < n; j++) {
                 visited[j] = 0;
             }
             dfs(visited, i, arr, n);
             printf("From%4d can visit: ", i);
-            for(int j = 0; j < n; j++) {
+            for(int j = 0; j < n; j++) {// sau khi duyệt theo chiều sâu thì ta sẽ duyệt mảng vitsit xem đỉnh đó có giá trị 1 tức đã thăm thì tức là từ đỉnh ban đầu ta có thể thăm được đỉnh đó thông qua thuật toán dfs
                 if(j != i && visited[j] == 1) {
                     if(first == 1) {
                         first = 0;
@@ -41,7 +41,7 @@ int main() {
                     printf("%3d", j);  
                 }
             }
-            if(first == 1) {
+            if(first == 1) { // nếu ko có đỉnh nào được thăm ta sẽ in ra là no vertex
                 cout << "No vertex";
             }
             cout << endl;

@@ -5,10 +5,10 @@
 using namespace std;
 
 void dfs(int visited[], int index, int ** arr, int n, int parents[]) {
-    visited[index] = 1;
-    for(int i = 0; i < n; i++) {
-        if(arr[index][i] == 1 && index != i && visited[i] == 0) {
-            parents[i] = index;
+    visited[index] = 1; // khi duyệt qua đỉnh đó thì ta sẽ đánh dấu đỉnh đó đã được thăm
+    for(int i = 0; i < n; i++) { // duyệt qua các đỉnh kề với đỉnh đó
+        if(arr[index][i] == 1 && index != i && visited[i] == 0) { // nếu đỉnh đó chưa được thăm thì ta sẽ đệ quy để duyệt theo chiều sâu với đỉnh đó, đệ quy sẽ chương trình tự tạo ra 1 ngăn xếp thay vì tạo trực tiếp ngăn xếp bằng mã code dùng để chứa danh sách các đỉnh kề sau khi hàm đệ quy này chạy xong nó sẽ tự lấy ra đỉnh kế tiếp theo để duyệt theo chiều sau
+            parents[i] = index;// ta lưu vết lại đỉnh đằng trc nó để lưu cái đường đi của tt duyệt theo chiều sâu
             dfs(visited, i, arr, n, parents);
         }
     }
@@ -27,19 +27,19 @@ int main() {
                 cin >> arr[i][j];
             }
         }
-        int visited[n], parents[n], first = 1;
+        int visited[n], parents[n], first = 1; // khởi tạo mảng visit thể hiện xem đỉnh đó đã được đi qua hay còn gọi là thăm chưa với giá trị mặc định ban đầu là 0
         for(int j = 0; j < n; j++) {
             visited[j] = 0, parents[j] = -1;
         }
-        dfs(visited, u, arr, n, parents);
+        dfs(visited, u, arr, n, parents);// ta sẽ duyệt theo chiều sâu bắt đầu từ đỉnh v 
         
         printf("Path from %d to %d:", u, v);
-        if(visited[v] == 0) {
+        if(visited[v] == 0) { // ktra xem đỉnh v đã được thăm hay chưa nếu thăm tức nó có giá trị 1
             printf(" No path exits");
         } else {
             vector<int> path;
             int tmp = v;
-            while(u != tmp) {
+            while(u != tmp) { // ta sẽ truy vết lại các biến parents để in ra đường đi từ đỉnh u đến đỉnh v
                 path.push_back(tmp);
                 tmp = parents[tmp];
             }

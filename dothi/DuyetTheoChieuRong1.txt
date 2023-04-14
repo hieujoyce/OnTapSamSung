@@ -4,16 +4,16 @@
 using namespace std;
 
 void bfs(int visited[], int index, int ** arr, int n) {
-    queue<int> q;
+    queue<int> q; // đầu tiên ta khởi tạo Một hàng đợi ban đầu chỉ chứa 1phần tử là đỉnh s
     q.push(index);
-    visited[index] = 1;
-    while(!q.empty()) {
-        int v = q.front();
+    visited[index] = 1; // đánh dấu đỉnh đó đã được thăm rồi
+    while(!q.empty()) { // mình cứ lặp lại các bước cho đợi đến khi hàng đợi rỗng
+        int v = q.front(); // Lấy đỉnh v ra khỏi hàng đợi
         q.pop();
-        for(int i = 0; i < n; i++) {
+        for(int i = 0; i < n; i++) {// xét tất cả những đỉnh kề với v mà chưa được đánh dấu hay đã thăm
             if(arr[v][i] == 1 && index != i && visited[i] == 0) {
-                q.push(i);
-                visited[i] = 1;
+                q.push(i); //đẩy lại đỉnh kề đó vào hàng đợi
+                visited[i] = 1; // Và đánh dấu đỉnh đó đã thăm
             }
         }
     }
@@ -32,14 +32,14 @@ int main() {
                 cin >> arr[i][j];
             }
         }
-        for(int i = 0; i < n; i++) {
-            int visited[n], first = 1;
+        for(int i = 0; i < n; i++) { // duyệt từng đỉnh 1 để sử dụng tt duyệt theo chiều sâu để liệt kê danh sách các đỉnh mà có thể đến được từ đỉnh
+            int visited[n], first = 1; // khởi tạo mảng visit thể hiện xem đỉnh đó đã được đi qua hay còn gọi là thăm chưa với giá trị mặc định ban đầu là 0
             for(int j = 0; j < n; j++) {
                 visited[j] = 0;
             }
-            bfs(visited, i, arr, n);
+            bfs(visited, i, arr, n); // ta bắt đầu duyệt theo chiều rộng
             printf("From%4d can visit: ", i);
-            for(int j = 0; j < n; j++) {
+            for(int j = 0; j < n; j++) { // sau khi duyệt theo chiều rộng thì ta sẽ duyệt mảng vitsit xem đỉnh đó có giá trị 1 tức đã thăm thì tức là từ đỉnh ban đầu ta có thể thăm được đỉnh đó thông qua thuật toán bfs
                 if(j != i && visited[j] == 1) {
                     if(first == 1) {
                         first = 0;
@@ -49,7 +49,7 @@ int main() {
                     printf("%3d", j);  
                 }
             }
-            if(first == 1) {
+            if(first == 1) { // nếu ko có đỉnh nào được thăm ta sẽ in ra là no vertex
                 cout << "No vertex";
             }
             cout << endl;

@@ -7,28 +7,28 @@ void dfs(int visited[], int index, int ** arr, int n, int arrIndex[], int& index
     arrIndex[indexStack++] = index;
     for(int i = 0; i < n; i++) {
         if(arr[index][i] == 1 && index != i && visited[i] == 0) {
-            dfs(visited, i, arr, n, arrIndex, indexStack);
+            dfs(visited, i, arr, n, arrIndex, indexStack); // nếu đỉnh đó chưa được thăm thì ta sẽ đệ quy để duyệt theo chiều sâu với đỉnh đó, đệ quy sẽ chương trình tự tạo ra 1 ngăn xếp thay vì tạo trực tiếp ngăn xếp bằng mã code dùng để chứa danh sách các đỉnh kề sau khi hàm đệ quy này chạy xong nó sẽ tự lấy ra đỉnh kế tiếp theo để duyệt 
         }
     }
 }
 
 void dfs1(int visited[], int index, int ** arr, int n) {
-    visited[index] = 1;
-    for(int i = 0; i < n; i++) {
+    visited[index] = 1; // khi duyệt qua đỉnh đó thì ta sẽ đánh dấu đỉnh đó đã được thăm
+    for(int i = 0; i < n; i++) { // khi duyệt qua đỉnh đó thì ta sẽ đánh dấu đỉnh đó đã được thăm
         if(arr[index][i] == 1 && index != i && visited[i] == 0) {
             dfs1(visited, i, arr, n);
         }
     }
 }
 
-int main() {
+int main() { // với bài toán này e sẽ sử dụng tt Thuật Toán Kosaraju
     int t;
     cin >> t;
     for(int k = 0; k < t; k++) {
         int n, count = 0;
         cin >> n;
         int **arr = new int*[n];
-        int **arrTG = new int*[n];
+        int **arrTG = new int*[n];// với tt này là ta sẽ đi tìm số thành phần liên thông của ma trận chuyển vị nếu nó bằng 1 thì đồ thị đó là  liên thông mạnh đầu tiên ta đi xây dựng ma trận chuyển vị rất đơn giản ta chỉ chuyển hàng thành cột cột thành hàng
         for(int i = 0; i < n; i++) {
             arrTG[i] = new int[n];
         }
@@ -40,18 +40,18 @@ int main() {
             }
         }
         
-        int visited[n], arrIndex[n], indexStack = 0;
+        int visited[n], arrIndex[n], indexStack = 0; // khởi tạo mảng visit thể hiện xem đỉnh đó đã được đi qua hay còn gọi là thăm chưa với giá trị mặc định ban đầu là 0
         for(int j = 0; j < n; j++) {
             visited[j] = 0;
         }
-        dfs(visited, 0, arr, n, arrIndex, indexStack);
+        dfs(visited, 0, arr, n, arrIndex, indexStack); // đầu tiên e sẽ duyệt 1 lần dfs trc đã nếu nó có thể duyệt hết các đỉnh chỉ trong 1 lần dùng tt này thì mới đủ đk để duyệt tiếp còn không thì dừng luôn  và thông báo đồ thị này không liên thông điều này sẽ giúp tt dừng luôn ko phải duyệt hết sẽ tiết kiệm thời gian chạy hơn
         if(indexStack != n) {
             cout << "Not connected";
         } else {
             for(int j = 0; j < n; j++) {
                 visited[j] = 0;
             }
-            for(int i = 0; i < n; i++) {
+            for(int i = 0; i < n; i++) { // e sẽ duyệt tất cả các điểm cứ đỉnh nào cứ đc thăm sau khi duyệt thì tức là nó đã đi hết con đường của thành phần liên thông đó nên e sẽ cộng số lượng thành phần liên thông lên 1
                 if(visited[i] == 0) {
                     count++;
                     dfs1(visited, arrIndex[i], arrTG, n);

@@ -3,7 +3,7 @@
 
 using namespace std;
 
-void in(int** f, int m, int n) {
+void in(int** f, int m, int n) { //hàm in ra giá trị hàm F
     cout << "   F";
     for(int i = 0; i <= n; i++) {
         printf("%4d", i);
@@ -18,7 +18,7 @@ void in(int** f, int m, int n) {
     }
 }
 
-int min3(int x, int y, int z) {
+int min3(int x, int y, int z) {// hàm này sẽ tìm giá trị nhỏ nhất trong 3 tham số
     int tmp = x < y ? x : y;
     return z < tmp ? z : tmp;
 }
@@ -27,28 +27,29 @@ int main() {
     int m, n;
     cin >> m >> n;
     //cout<<"Hello World";
-    int **f = new int*[m + 1];
+    int **f = new int*[m + 1]; // khởi tạo giá trị bảng f với f[i, j] là số phép biến đổi tối thiểu để biến xâu gồm i ký từ đầu của xâu X:X[1..i] thành xâu gồm j ký tự đầu của xâu Y:[1..j]
     for(int i = 0; i < m + 1; i++) {
         f[i] = new int[n + 1];
     }
     string X, Y;
     cin >> X >> Y;
-    // Khoi Tao
+    // Khoi Tao cho bài toán cơ sở 
     for(int i = 0; i <= m; i++)
-        f[i][0] = i;
+        f[i][0] = i;// F[i][0] là số phép biến đổi xâu gồm i ký tự đầu của S thành xâu rỗng, nó cần tối thiểu i phép xóa:
     for(int j = 0; j <= n; j++)
-        f[0][j] = j;
-    for(int i = 1; i <= m; i++) {
+        f[0][j] = j;// F[0, j] là số phép biến đổi biến xâu rỗng thành xâu gồm j ký tự đầu của F. Nó cần tối thiểu j phép chèn
+    for(int i = 1; i <= m; i++) {//duyệt để hoàn thiện giá trị bảng F với công thức truy hồi sau
         for(int j = 1; j <= n; j++) {
-            if(X[i - 1] == Y[j - 1]) {
+            if(X[i - 1] == Y[j - 1]) { // nếu kí tự thứ i của X = kí tự thứ j của Y thì f[i][j] sẽ bằng giá trị của ô trước đó tại vì 2 kí tự này bằng nhau mình ko cần thực hiện biến đổi nữa lấy lại giá trị cũ của phép biến đổi f[i-1][j-1]
                 f[i][j] = f[i - 1][j - 1];
-            } else {
+            } else { // nếu ko bằng thì cí thể sử dụng 1 trong 3 phép biến đổi chèn, thay đổi xóa tương ứng với 3 hàm f dưới vì là chọn số bước biến đổi it nhất nên ta sẽ tìm min của 3 giá trị f này
                 f[i][j] = min3(f[i][j - 1], f[i - 1][j - 1], f[i - 1][j]) + 1;
             }
         }
     }
-    in(f, m, n);
+    in(f, m, n); // in ra bảng giá trị hàm f
     int count = 0;
+	// bước này mình truy vết để đếm số lần biến dổi 
     while(m >= -1 && n >= -1) {
         if(X[m - 1] == Y[n - 1]) {
             m--;
@@ -75,24 +76,25 @@ int main() {
     }
     cout << count << endl;
     m = X.length(), n = Y.length();
+    // truy vết để tìm ra các bước biến đổi
     while(m >= -1 && n >= -1) {
         //printf("(m, n):(%d, %d)\n", m, n);
-        if(X[m - 1] == Y[n - 1]) {
+        if(X[m - 1] == Y[n - 1]) { //nếu X[m] = Y[n] thì chỉ việc xét tiếp giá trí F[m- 1][n - 1]
             m--;
             n--;
-        } else {
-            if(f[m][n] == f[m][n - 1] + 1) {
+        } else { // nếu không ta sẽ so sánh
+            if(f[m][n] == f[m][n - 1] + 1) { //nếu cái này bằng cái này thì tức là phép biến đổi đầu tiên được sử dụng là chèn thêm
                 if(n > 0) {
                     printf("Insert(%d,%c)\n", m, Y[n - 1]);
                 }
                 n--;   
-            } else if(f[m][n] == f[m - 1][n - 1] + 1) {
+            } else if(f[m][n] == f[m - 1][n - 1] + 1) { //nếu cái này bằng cái này thì tức là phép biến đổi đầu tiên được sử dụng là thay đổi
                 if(n > 0 && m > 0) {
                     printf("Replace(%d,%c)\n", m, Y[n - 1]);
                 }
                 m--;
                 n--;   
-            } else {
+            } else { //nếu cái này bằng cái này thì tức là phép biến đổi đầu tiên được sử dụng là xoá
                 if(m > 0) {
                     printf("Delete(%d)\n", m);
                 }

@@ -4,11 +4,11 @@
 
 using namespace std;
 
-void dfs(int visited[], int index, vector<int> vec[], vector<int>& result) {
-    visited[index] = 1;
-    result.push_back(index);
-    for(int i = 0; i < vec[index].size(); i++) {
-        if(visited[vec[index][i]] == 0) {
+void dfs(int visited[], int index, vector<int> vec[], vector<int>& result) { 
+    visited[index] = 1;// khi duyệt qua đỉnh đó thì ta sẽ đánh dấu đỉnh đó đã được thăm
+    result.push_back(index);// lưu vết lại các đỉnh đã thăm
+    for(int i = 0; i < vec[index].size(); i++) { // duyệt qua các đỉnh kề với đỉnh đó
+        if(visited[vec[index][i]] == 0) { // nếu đỉnh đó chưa được thăm thì ta sẽ đệ quy để duyệt theo chiều sâu với đỉnh đó, đệ quy sẽ chương trình tự tạo ra 1 ngăn xếp thay vì tạo trực tiếp ngăn xếp bằng mã code dùng để chứa danh sách các đỉnh kề sau khi hàm đệ quy này chạy xong nó sẽ tự lấy ra đỉnh kế tiếp theo để duyệt theo chiều sau
             dfs(visited, vec[index][i], vec, result);
         }
     }
@@ -29,8 +29,8 @@ int main() {
     for(int k = 0; k < t; k++) {
         int n;
         cin >> n;
-        vector<int> vec[n];
-        vector<int> result;
+        vector<int> vec[n]; //khởi tạo mảng vector để lưu danh sách kề của đồ thị
+        vector<int> result; // khởi tạo mảng để chứa giá trị truy vết
         for(int i = 0; i < n; i++) {
             int m;
             cin >> m;
@@ -40,16 +40,16 @@ int main() {
                 vec[i].push_back(tmp);   
             }
         }
-        int visited[n];
+        int visited[n]; // khởi tạo mảng visit thể hiện xem đỉnh đó đã được đi qua hay còn gọi là thăm chưa với giá trị mặc định ban đầu là 0
         for(int j = 0; j < n; j++) {
             visited[j] = 0;
         }
-        for(int i = 0; i < n; i++) {
+        for(int i = 0; i < n; i++) { // e sẽ duyệt tất cả các điểm cứ đỉnh nào chưa đc thăm thì sẽ duyệt dfs
             if(visited[i] == 0) { 
                 dfs(visited, i, vec, result);      
             }
         }
-        for(int i = 0; i < n; i++) {
+        for(int i = 0; i < n; i++) {// sau khi duyệt xong ta sẽ truy vết lại các đỉnh mà tt đã đi thăm
             printf("%3d", getIndex(result, i) + 1);
         }
         // int index = 1;

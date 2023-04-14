@@ -2,7 +2,7 @@
 
 using namespace std;
 
-int main() {
+int main() { // ma trận  kề của đồ thị vô hướng có tính chất đối xứng qua đường chéo chính nên ta duyệt ma trận kề nếu với mọi i j mà arr[i][j] != arr[j][i] thì em sẽ chuyển 2 giá trị đó về bằng 1
     int t;
     cin >> t;
     for(int k = 0; k < t; k++) {

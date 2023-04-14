@@ -21,7 +21,7 @@ int main()
 {
     int n, jmax;
     cin >> n;
-    int A[n + 2], L[n + 2], T[n + 2];
+    int A[n + 2], L[n + 2], T[n + 2]; //khởi tạo mảng giá trị L với L[i] là độ dàu dãy con đơn điệu tăng dài nhất bắt đầu tại A[i]
     string s;
     getline(cin, s);
     getline(cin, s);
@@ -44,26 +44,27 @@ int main()
     for(int i = 0; i <= n + 1; i++) {
         L[n] = 0;
     }
-    L[n + 1] = 1;
+	// Bổ sung vào A 2 phần tử A[0] = -oo và A[n + 1] = +oo khi đó dãy con đơn điệu tăng dài nhất chắc chắn sẽ là bắt đầu từ A[0] và kết thúc ở A[n + 1]
+    L[n + 1] = 1; //Điền cơ sở quy hoạch động vào bảng phương án ta có thể thấy L[n + 1] là độ dài dãy con đơn điệu tăng dài nhất bắt đầu tại A[n + 1] = +oo Dãy con này chỉ gồm 1 phần tử (+oo) nên L[n _ 1] = 1
     printf("L[%d]=1\n", n + 1);
     for(int i = n; i >= 0; i--) {
         jmax = n + 1;
         printf("jmax=n+1=%d+1=%d\n", n, n + 1);
-        for(int j = i + 1; j <= n + 1; j++) {
+        for(int j = i + 1; j <= n + 1; j++) {// vòng lặp này ta duyệt để tìm ra chỉ số jmax sao cho L[jmax] lớn nhất
             if( ((i == 0 || j == n + 1) || A[j] > A[i]) && L[j] > L[jmax]) {
                 printf("i=%d,j=%d,jmax=%d,a[%d]>a[%d] &&L[%d]>L[%d]:\n", i, j, jmax, j, i, j, jmax);
                 jmax = j;
                 printf("jmax=j=%d\n", j);
             }
         }
-        L[i] = L[jmax] + 1;
+        L[i] = L[jmax] + 1; // Lưu độ dài dãy con tăng dài nhất bắt đầu tại ai
         printf("L[%d]=L[%d]+1=%d\n", i, jmax, L[jmax] + 1);
-        T[i] = jmax;
+        T[i] = jmax; // lưu vết phần tử đừng liền sau ai trong dãy con tăng dài nhất đó là ajmax
         printf("T[%d]=jmax=%d\n", i, jmax);
     }
-    cout << L[0] - 2 << endl;
+    cout << L[0] - 2 << endl; // chiều dài dãy con tăng dài nhất
     int k = T[0];
-    while(k != n + 1) {
+    while(k != n + 1) {// Như ở trên ta thấy mỗi khí gán L[i] = L[jmax] + 1 ta có lưu vết lại giá trị T[i] nên giờ ta sẽ dùng vòng lặp để truy vết lại các phần tử của dãy con
         printf("a[%d]=%d;", k, A[k]);
         k = T[k];
     }

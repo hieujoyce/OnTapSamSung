@@ -3,7 +3,7 @@
 
 using namespace std;
 
-void in(int** F, int n, int M, int A[], int C[]) {
+void in(int** F, int n, int M, int A[], int C[]) { // hàm in giá trị của bảng F
     cout << "   C   A i/v";
     for(int i = 0; i <= M; i++) {
         printf("%4d", i);
@@ -32,27 +32,28 @@ int main() {
     for(int i = 0; i < n; i++) {
         cin >> C[i];
     }
-    //int F[n + 1][M + 1];
+    //int F[n + 1][M + 1]; khởi tạo bảng F[i, v] tương ứng với giá trị lớn nhất có thể có bằng cách chọn trong các gói {1, 2, ..., i} với giới hạn trọng lượng vậy nên giải giá trị mình cần tìm là giá trị lớn nhất khi được chọn trong số n gói với giới hạn trọng lượng M chính là F[n, M]
     int **F = new int*[n + 1];
     for(int i = 0; i < n + 1; i++) {
         F[i] = new int[M + 1];
     }
-    //Tao bang phuong an
+    //bước tiếp theo là Tao bang phuong an
     for(int i = 0; i < M + 1; i++) {
-        F[0][i] = 0;
+        F[0][i] = 0; // điến số 0 vào các ô trên dòng 0
     }
-    for(int i = 1; i <= n; i++) {
+    for(int i = 1; i <= n; i++) {// ta sẽ dùng công thức truy hồi để điền vào các giá trị của bảng F với công thức như sau nếu không chọn gói thứ i tức A[i] > v thì F[i][v] = F[i - 1][v];
         for(int v = 0; v <= M; v++) {
-            F[i][v] = F[i - 1][v];
-            if(A[i - 1] <= v && F[i][v] < F[i - 1][v - A[i - 1]] + C[i - 1]) {
+            F[i][v] = F[i - 1][v]; // 
+            if(A[i - 1] <= v && F[i][v] < F[i - 1][v - A[i - 1]] + C[i - 1]) { // nếu chọn gói thứ i với A[i] <= v và  F[i][v] nhỏ hơn F[i - 1][v - A[i - 1]] + C[i - 1] thì F[i][v] được tính theo công thức sau
                 F[i][v] = F[i - 1][v - A[i - 1]] + C[i - 1];
             }
         }
     }
-    in(F, n, M, A, C);
-    cout<< F[n][M] << endl;
+    in(F, n, M, A, C); // ta thực hiện in giá trị của bảng F
+    cout<< F[n][M] << endl; // in ra giá trị cần tim
     int v = M;
     vector<int> vec;
+// sau khi có được giá trị cần tìm ta sẽ truy vết từ giá trị ô F[n][M]  để tìm các món hàng được chọn
     for(int i = n; i > 0; i--) {
         if(F[i][v] != F[i - 1][v]) {
             vec.push_back(i);

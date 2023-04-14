@@ -69,13 +69,12 @@ int main()
     for(int i = 0; i < n; i++) {
         cin >> C;
         arr[i].C = C;
-        //arr[i].P = round(((float)C / arr[i].A) * 100) / 100;
-        arr[i].P = (float)C / arr[i].A;
+        arr[i].P = (float)C / arr[i].A; // tính giá trị P = C / A
     }
     
-    quickSort(arr, 0, n - 1);
-    for(int i = 0; i < n; i++) {
-        if(M - arr[i].A >= 0) {
+    quickSort(arr, 0, n - 1); // sắp xếp theo giá trị P giảm dần
+    for(int i = 0; i < n; i++) { // duyệt chọn phần từ có giá trị P lớn nhất (tham lam thể hiện ở chỗ này)
+        if(M - arr[i].A >= 0) { // nếu nhét thêm vật đó có khối lượng ko vượt quá khối lượng tối đa thì chọn vật này để lấy
             v.push_back(arr[i]);
             trongLuong += arr[i].A;
             giaTri += arr[i].C;
